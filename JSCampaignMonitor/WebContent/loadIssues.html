@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>CM JS dev, requirement 6</title>
+<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+<script type="text/javascript"	src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript"	src="DateDiff.js"></script>
+<script>
+	$(function() {
+		$.getJSON('test.json', function(data) {
+			if(typeof data.issues=="undefined"){
+				$("#results").append('<div class="no-issues-template">Everybody is happy!</div>');
+			}else{
+			$.each(data.issues, function(key, val) {
+				var me = this;
+				$("#results").append('<div class="issue-template">');
+				if(me.status=='Unresolved'){
+					$("#results").append('<h3>Issue Title: '+me.title +'- Begin '+timeDifference(new Date(),new Date(me.beganAt))+' </h3>');
+				}
+				if(me.status=='Resolved'){
+					var arr = me.resolvedAt.split(/-|\s|:/);
+					var date = new Date(arr[0], arr[1] -1, arr[2], arr[3], arr[4]);
+					$("#results").append('<h3>Issue Title: '+me.title +'- Resolved '+timeDifference(new Date(),date)+'</h3>');
+				}
+				$("#results").append('<p>Issue description :'+ me.description+ '</p>');
+				$("#results").append('<div style="padding-left: 50px">');
+				$("#results").append('<p>Updates:</p>');
+				$.each(val.updates, function(i, j){
+					var arr = this.at.split(/-|\s|:/);
+					var date = new Date(arr[0], arr[1] -1, arr[2], arr[3], arr[4]);
+					$("#results").append('<div class="update-template">');
+					$("#results").append('<p>Update</p>');
+					$("#results").append('<em>By '+ this.by+' '+timeDifference(new Date(),date)+'</em>');
+					$("#results").append('<hr style="width: 50%" />');
+					$("#results").append('</div>');
+					$("#results").append('<hr/>');
+			 });
+				$("#results").append('</div>');
+			});
+			}
+		});
+	});
+</script>	
+</head>
+<body>
+	<div class="container" style="padding-top: 30px">
+		<div>
+			<p>
+				<a href="#">Load the current issues list</a>
+			</p>
+		</div>
+		<div id="results" style="display: true">
+		</div>
+	</div>
+</body>
+</html>

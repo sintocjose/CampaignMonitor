@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Extended String Demo</title>
+<link rel="stylesheet"	href="https://code.jquery.com/qunit/qunit-2.3.2.css">
+</head>
+<body>
+	<div id="qunit"></div>
+	<div id="qunit-fixture"></div>
+	<script src="https://code.jquery.com/qunit/qunit-2.3.2.js"></script>
+	<script src="ExtendedString.js"></script>
+	<script>
+		var mystring = "hang the dj";
+		QUnit.test("Test String Extension", function(assert) {
+			assert.ok(mystring.startsWith("hang"), "Passed");
+			assert.notOk(mystring.startsWith("Hang"), "Passed");
+			assert.notOk(mystring.startsWith("I’ve got a room for rent"),"Passed");
+			assert.ok(mystring.startsWith(""), "Passed");
+			assert.ok(mystring.startsWith("hang the"), "Passed");
+			assert.ok(mystring.startsWith("han"), "Passed");
+			assert.ok(mystring.startsWith("hang t"), "Passed");
+			assert.notOk(mystring.startsWith(42), "Passed");
+			assert.notOk(mystring.startsWith({ first: "Johnny" }),"Passed");
+			assert.ok(mystring.endsWith("dj"), "Passed");
+			assert.notOk(mystring.endsWith("panic on the streets"), "Passed");
+			assert.ok(mystring.endsWith(""), "Passed");
+			assert.ok(mystring.endsWith("the dj"), "Passed");
+			assert.ok(mystring.endsWith("e dj"), "Passed");
+			assert.ok(mystring.endsWith("j"), "Passed");
+			assert.notOk(mystring.startsWith(42), "Passed");
+			assert.notOk(mystring.startsWith({ first: "Johnny" }),"Passed");
+		});
+	</script>
+</body>
+</html>

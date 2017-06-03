@@ -1,0 +1,29 @@
+Requirement 7
+
+First answer:
+
+SELECT sp.Name FROM Salesperson AS sp JOIN Orders AS o ON sp.SalespersonID = o.SalespersonID WHERE o.CustomerID IN (SELECT CustomerID FROM Customer WHERE LOWER(Name) = 'george');
+
+Second answer:
+
+SELECT sp.Name FROM Salesperson AS sp JOIN Orders AS o ON sp.SalespersonID = o.SalespersonID WHERE o.CustomerID NOT IN (SELECT CustomerID FROM Customer WHERE LOWER(Name) = 'george');
+
+Third answer:
+
+SELECT Name FROM Salesperson WHERE SalespersonID IN (SELECT SalespersonID FROM Orders GROUP BY SalespersonID HAVING count(SalespersonID)>1);
+
+
+Requirement 8
+
+First answer:
+
+SELECT TOP 1 Name FROM (SELECT TOP 3 Name,Salary FROM Salesperson ORDER BY Salary desc) AS sales ORDER BY Salary;
+
+Second answer:
+
+CREATE TABLE BigOrders (CustomerID int, CustomerID int);
+INSERT INTO BigOrders (CustomerID,TotalOrderValue) (SELECT  CustomerID, SUM(NumberOfUnits*CostOfUnit) FROM Orders GROUP BY CustomerID HAVING SUM(NumberOfUnits*CostOfUnit)>1000);
+
+Third answer:
+
+SELECT  SUM(NumberOfUnits*CostOfUnit),MONTH(OrderDate),YEAR(OrderDate) FROM Orders GROUP BY MONTH(OrderDate),YEAR(OrderDate) ORDER BY YEAR(OrderDate),MONTH(OrderDate) DESC;
